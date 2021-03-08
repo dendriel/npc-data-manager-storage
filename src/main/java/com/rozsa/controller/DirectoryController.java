@@ -9,16 +9,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/storage/directory")
 public interface DirectoryController {
-    @GetMapping("/all")
-    @ResponseBody
-    List<String> getAll();
-
     @PostMapping
     @ResponseBody
     Long create(@RequestParam("name") String name);
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
+
+    @GetMapping("/all")
+    @ResponseBody
+    List<String> getAll();
 
     @GetMapping("/{id}/list")
     @ResponseBody

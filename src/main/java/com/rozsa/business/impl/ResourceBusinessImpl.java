@@ -58,7 +58,7 @@ public class ResourceBusinessImpl implements ResourceBusiness {
             return;
         }
 
-        String storageId = storage.create(file, ext, directoryStorageId);
+        String storageId = storage.createResource(file, ext, directoryStorageId);
 
         Resource resource = new Resource();
         resource.setName(name);
@@ -67,5 +67,23 @@ public class ResourceBusinessImpl implements ResourceBusiness {
         resource.setDirectory(directory);
 
         resourceRepository.save(resource);
+    }
+
+    @Override
+    public void delete(Long id) {
+        if (!resourceRepository.existsById(id)) {
+            // done.
+            return;
+        }
+
+        Optional<Resource> optResource = resourceRepository.findById(id);
+        if (optResource.isEmpty()) {
+            return;
+        }
+
+        Resource resource = optResource.get();
+        storage.deleteResource(resource.getStorageId());
+
+        resourceRepository.delete(resource);
     }
 }

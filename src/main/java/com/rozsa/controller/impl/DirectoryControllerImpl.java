@@ -21,12 +21,16 @@ public class DirectoryControllerImpl implements DirectoryController {
         this.business = business;
     }
 
-    public List<String> listAll() {
+    public List<String> getAll() {
         return business.listAll();
     }
 
+    public Long create(@RequestParam("name") String name) {
+        return business.create(name);
+    }
+
     public void delete(@PathVariable("id") Long id) {
-        // TODO: delete.
+        business.delete(id);
     }
 
     public List<ResourceDto> listResources(@PathVariable("id") Long id) {

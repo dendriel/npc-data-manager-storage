@@ -8,5 +8,9 @@ public interface StorageService {
 
     List<String> listResources(String directory);
 
-    String create(File file, String ext, String directory);
+    void deleteResource(String resource);
+
+    String createDirectory(String directory);
+
+    String createResource(File file, String ext, String directory);
 }

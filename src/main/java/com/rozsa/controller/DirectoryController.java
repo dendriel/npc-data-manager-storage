@@ -9,9 +9,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/storage/directory")
 public interface DirectoryController {
-
     @GetMapping("/all")
-    List<String> listAll();
+    @ResponseBody
+    List<String> getAll();
+
+    @PostMapping
+    @ResponseBody
+    Long create(@RequestParam("name") String name);
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
@@ -19,5 +23,4 @@ public interface DirectoryController {
     @GetMapping("/{id}/list")
     @ResponseBody
     List<ResourceDto> listResources(@PathVariable("id") Long id);
-
 }

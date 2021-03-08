@@ -8,4 +8,6 @@ import java.util.List;
 public interface ResourceRepository extends CrudRepository<Resource, Long> {
 
     List<Resource> findAllByDirectoryId(Long id);
+
+    long countAllByDirectory_Id(Long id);
 }

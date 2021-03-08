@@ -49,8 +49,22 @@ public class StorageS3 implements StorageService {
         }
     }
 
-    public String create(File file, String ext, String directory) {
+    private String createId() {
         String newId = randomUUID().toString();
+        newId = newId.replace("-", "");
+
+        // TODO: Maybe validate ids to check for duplicates.
+        return newId;
+    }
+
+    @Override
+    public String createDirectory(String directory) {
+        return createId();
+    }
+
+    @Override
+    public String createResource(File file, String ext, String directory) {
+        String newId = createId();
         String idStorage = directory + "/" + newId + "." + ext;
 
         System.out.format("Uploading %s to S3 bucket %s...\n", idStorage, bucketName);
@@ -63,6 +77,13 @@ public class StorageS3 implements StorageService {
         }
 
         return idStorage;
+    }
+
+    @Override
+    public void deleteResource(String resource) {
+        // TODO: doesnt seems the most trustable operation..
+        // TODO: how to wait for delete confirmation?
+        client.deleteObject(bucketName, resource);
     }
 
     @Override

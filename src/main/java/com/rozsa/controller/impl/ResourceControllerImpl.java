@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/storage/directory")
+@RequestMapping("/storage/resource")
 public class ResourceControllerImpl implements ResourceController {
     private final ResourceBusiness business;
 
@@ -24,10 +26,20 @@ public class ResourceControllerImpl implements ResourceController {
                        @RequestParam("file") MultipartFile file
     ) {
         if (file.isEmpty()) {
-            // TODO: throw error?
+            // TODO: throw error
             return;
         }
 
         business.create(name, type, directoryId, file);
+    }
+
+    @Override
+    public void delete(Long id) {
+        business.delete(id);
+    }
+
+    @Override
+    public void deleteMany(@RequestBody List<Long> ids) {
+        ids.forEach(this::delete);
     }
 }

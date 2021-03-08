@@ -6,5 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DirectoryRepository extends CrudRepository<Directory, Long> {
+    boolean existsDirectoryByName(String name);
 
+    boolean existsDirectoryById(Long id);
 }

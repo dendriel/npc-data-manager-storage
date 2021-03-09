@@ -50,6 +50,10 @@ public class ResourceControllerImpl implements ResourceController {
     public ResponseEntity<InputStreamResource> get(@RequestParam("storageId") String storageId) {
         StorageResourceInputStream resource = business.get(storageId);
 
+        if (resource == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         return ResponseEntity.ok()
                 .contentLength(resource.getContentLength())
                 .contentType(resource.getMediaType())

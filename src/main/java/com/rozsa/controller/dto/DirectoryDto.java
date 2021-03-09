@@ -1,28 +1,29 @@
-package com.rozsa.repository.model;
+package com.rozsa.controller.dto;
 
-import javax.persistence.*;
+import com.rozsa.repository.model.Directory;
 
-@Entity
-public class Directory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class DirectoryDto {
     private Long id;
-
-    @Column(unique = true, nullable = false)
     private String name;
-
-    @Column(unique = true, nullable = false)
     private String storageId;
-
-    @Transient
     private Long resourcesCount;
 
-    public void setId(Long id) {
-        this.id = id;
+    public static DirectoryDto from(Directory directory) {
+        DirectoryDto dto = new DirectoryDto();
+        dto.setId(directory.getId());
+        dto.setName(directory.getName());
+        dto.setStorageId(directory.getStorageId());
+        dto.setResourcesCount(directory.getResourcesCount());
+
+        return dto;
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -37,8 +38,8 @@ public class Directory {
         return storageId;
     }
 
-    public void setStorageId(String idStorage) {
-        this.storageId = idStorage;
+    public void setStorageId(String storageId) {
+        this.storageId = storageId;
     }
 
     public Long getResourcesCount() {

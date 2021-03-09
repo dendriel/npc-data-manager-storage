@@ -2,7 +2,9 @@ package com.rozsa.controller.impl;
 
 import com.rozsa.business.DirectoryBusiness;
 import com.rozsa.controller.DirectoryController;
+import com.rozsa.controller.dto.DirectoryDto;
 import com.rozsa.controller.dto.ResourceDto;
+import com.rozsa.repository.model.Directory;
 import com.rozsa.repository.model.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +23,13 @@ public class DirectoryControllerImpl implements DirectoryController {
         this.business = business;
     }
 
-    public List<String> getAll() {
-        return business.listAll();
+    public List<DirectoryDto> getAll() {
+        List<Directory> directories = business.listAll();
+        List<DirectoryDto> dtos = directories.stream()
+                .map(DirectoryDto::from)
+                .collect(Collectors.toList());
+
+        return dtos;
     }
 
     public Long create(@RequestParam("name") String name) {

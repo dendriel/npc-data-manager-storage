@@ -1,6 +1,7 @@
 package com.rozsa.business.impl;
 
 import com.rozsa.business.DirectoryBusiness;
+import com.rozsa.controller.dto.DirectoryDto;
 import com.rozsa.repository.DirectoryRepository;
 import com.rozsa.repository.ResourceRepository;
 import com.rozsa.repository.model.Directory;
@@ -28,8 +29,15 @@ public class DirectoryBusinessImpl implements DirectoryBusiness {
     }
 
     @Override
-    public List<String> listAll() {
-        List<String> directories = storage.listDirectories();
+    public List<Directory> listAll() {
+        List<Directory> directories = directoryRepository.findAll();
+
+        // TODO: we could get this info while retrieving directory data by using SQL.
+        for (Directory dir : directories) {
+            Long count = resourceRepository.countAllByDirectory_Id(dir.getId());
+            dir.setResourcesCount(count);
+        }
+
         return directories;
     }
 

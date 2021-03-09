@@ -1,5 +1,6 @@
 package com.rozsa.controller;
 
+import com.rozsa.controller.dto.DirectoryDto;
 import com.rozsa.controller.dto.ResourceDto;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public interface DirectoryController {
 
     @GetMapping("/all")
     @ResponseBody
-    List<String> getAll();
+    List<DirectoryDto> getAll();
 
     @GetMapping("/{id}/list")
     @ResponseBody

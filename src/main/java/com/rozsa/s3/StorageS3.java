@@ -149,7 +149,15 @@ public class StorageS3 implements StorageService {
 
     @Override
     public StorageResourceInputStream getResource(String storageId) {
-        S3Object s3object = client.getObject(bucketName, storageId);
+        S3Object s3object;
+        try {
+            s3object = client.getObject(bucketName, storageId);
+        }
+        catch (AmazonServiceException e) {
+            System.err.println(e.toString());
+            return null;
+        }
+
         S3ObjectInputStream inputStream = s3object.getObjectContent();
 
         ObjectMetadata metadata = s3object.getObjectMetadata();

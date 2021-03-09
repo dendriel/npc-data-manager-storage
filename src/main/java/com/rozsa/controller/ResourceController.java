@@ -27,4 +27,7 @@ public interface ResourceController {
 
     @GetMapping
     ResponseEntity<InputStreamResource> get(@RequestParam("storageId") String storageId);
+
+    @GetMapping("/types")
+    ResourceType[] getTypes();
 }

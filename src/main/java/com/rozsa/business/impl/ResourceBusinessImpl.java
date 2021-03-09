@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -91,5 +92,10 @@ public class ResourceBusinessImpl implements ResourceBusiness {
         storage.deleteResource(resource.getStorageId());
 
         resourceRepository.delete(resource);
+    }
+
+    @Override
+    public ResourceType[] getTypes() {
+        return ResourceType.values();
     }
 }

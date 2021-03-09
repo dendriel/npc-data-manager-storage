@@ -36,6 +36,9 @@ The following functionalities are available for resource management:
 - Get a resource:
   - Request: GET ``http://localhost/storage/resource?storageId=666e1d6f26d04b8aad885ba22ee42100/1e4d8b647fa0488abe53a0595556a78c.png``
   - Response: HTTP 200 - content with contentType and contentLength headers set.
+- Get available resource types:
+  - Request: GET ``http://localhost/storage/resource/types``
+  - Response: HTTP 200 - JSON response content: ["DEFAULT", "IMAGE", ...].
 - Delete a resource:
   - Request: DELETE ``http://localhost/storage/resource/{id}``
   - Response: HTTP 200

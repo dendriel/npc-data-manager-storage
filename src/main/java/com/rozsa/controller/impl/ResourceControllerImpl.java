@@ -59,4 +59,9 @@ public class ResourceControllerImpl implements ResourceController {
                 .contentType(resource.getMediaType())
                 .body(new InputStreamResource(resource.getInputStream()));
     }
+
+    @Override
+    public ResourceType[] getTypes() {
+        return business.getTypes();
+    }
 }

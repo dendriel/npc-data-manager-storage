@@ -54,4 +54,8 @@ public class ResourceDto {
     public void setStorageId(String storageId) {
         this.storageId = storageId;
     }
+
+    public String getTypeName() {
+        return type.toString();
+    }
 }

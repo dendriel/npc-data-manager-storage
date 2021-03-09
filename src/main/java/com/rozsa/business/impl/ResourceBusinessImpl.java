@@ -6,6 +6,7 @@ import com.rozsa.repository.ResourceRepository;
 import com.rozsa.repository.ResourceType;
 import com.rozsa.repository.model.Directory;
 import com.rozsa.repository.model.Resource;
+import com.rozsa.s3.StorageResourceInputStream;
 import com.rozsa.s3.StorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +33,10 @@ public class ResourceBusinessImpl implements ResourceBusiness {
         this.storage = storage;
     }
 
+    @Override
+    public StorageResourceInputStream get(String storageId) {
+        return storage.getResource(storageId);
+    }
 
     public void create(String name, ResourceType type, Long directoryId, MultipartFile multipartFile) {
         Optional<Directory> optDirectory = directoryRepository.findById(directoryId);
@@ -58,7 +63,8 @@ public class ResourceBusinessImpl implements ResourceBusiness {
             return;
         }
 
-        String storageId = storage.createResource(file, ext, directoryStorageId);
+        String contentyType = multipartFile.getContentType();
+        String storageId = storage.createResource(file, contentyType, ext, directoryStorageId);
 
         Resource resource = new Resource();
         resource.setName(name);

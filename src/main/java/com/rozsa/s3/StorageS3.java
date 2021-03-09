@@ -3,9 +3,7 @@ package com.rozsa.s3;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.AmazonS3Exception;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import com.amazonaws.services.s3.model.*;
 import com.rozsa.business.SystemPropertiesBusiness;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -63,7 +61,7 @@ public class StorageS3 implements StorageService {
     }
 
     @Override
-    public String createResource(File file, String ext, String directory) {
+    public String createResource(File file, String contentType, String ext, String directory) {
         String newId = createId();
         String idStorage = directory + "/" + newId + "." + ext;
 
@@ -71,6 +69,13 @@ public class StorageS3 implements StorageService {
 
         try {
             client.putObject(bucketName, idStorage, file);
+
+            PutObjectRequest request = new PutObjectRequest(bucketName, idStorage, file);
+            ObjectMetadata metadata = new ObjectMetadata();
+            metadata.setContentType(contentType);
+            request.setMetadata(metadata);
+            client.putObject(request);
+
         } catch (AmazonServiceException e) {
             System.err.println(e.getErrorMessage());
             return null;
@@ -142,5 +147,17 @@ public class StorageS3 implements StorageService {
         return resourceName.toString();
     }
 
+    @Override
+    public StorageResourceInputStream getResource(String storageId) {
+        S3Object s3object = client.getObject(bucketName, storageId);
+        S3ObjectInputStream inputStream = s3object.getObjectContent();
+
+        ObjectMetadata metadata = s3object.getObjectMetadata();
+
+        StorageResourceInputStream resource = new StorageResourceInputStream(
+                storageId, inputStream, metadata.getContentType(), metadata.getContentLength());
+
+        return resource;
+    }
 
 }

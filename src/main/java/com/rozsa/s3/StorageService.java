@@ -12,5 +12,7 @@ public interface StorageService {
 
     String createDirectory(String directory);
 
-    String createResource(File file, String ext, String directory);
+    String createResource(File file, String contentType, String ext, String directory);
+
+    StorageResourceInputStream getResource(String storageId);
 }

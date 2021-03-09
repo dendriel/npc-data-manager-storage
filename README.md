@@ -33,6 +33,9 @@ The following functionalities are available for resource management:
         - type=resource type;
         - directoryId=target directory. 
   - Response: HTTP 200 - Response content: directory_id (Long)
+- Get a resource:
+  - Request: GET ``http://localhost/storage/resource?storageId=666e1d6f26d04b8aad885ba22ee42100/1e4d8b647fa0488abe53a0595556a78c.png``
+  - Response: HTTP 200 - content with contentType and contentLength headers set.
 - Delete a resource:
   - Request: DELETE ``http://localhost/storage/resource/{id}``
   - Response: HTTP 200

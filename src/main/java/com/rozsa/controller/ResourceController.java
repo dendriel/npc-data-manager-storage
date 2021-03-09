@@ -1,6 +1,8 @@
 package com.rozsa.controller;
 
 import com.rozsa.repository.ResourceType;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,4 +24,7 @@ public interface ResourceController {
 
     @DeleteMapping("/")
     void deleteMany(@RequestBody List<Long> ids);
+
+    @GetMapping
+    ResponseEntity<InputStreamResource> get(@RequestParam("storageId") String storageId);
 }

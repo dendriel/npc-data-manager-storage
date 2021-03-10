@@ -6,6 +6,14 @@ directories and resources. Directories are holders of resources and resources ar
 objects (images, docs, etc) within the directories.
 
 
+## AWS Credentials
+
+This service uses S3 Client from AWS SDK and depends on the credential file located in
+the user home. Check AWS docs on how to setup the credentials: https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/setup-credentials.html
+
+Also, the credentials must have read/write (AmazonS3FullAccess) access to S3 in order to
+the service manage the resources.
+
 ## Directory
 The following functionalities are available for directory management:
 

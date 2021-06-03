@@ -1,7 +1,9 @@
 package com.rozsa.controller.dto;
 
 import com.rozsa.repository.model.Directory;
+import lombok.Data;
 
+@Data
 public class DirectoryDto {
     private Long id;
     private String name;
@@ -16,37 +18,5 @@ public class DirectoryDto {
         dto.setResourcesCount(directory.getResourcesCount());
 
         return dto;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getStorageId() {
-        return storageId;
-    }
-
-    public void setStorageId(String storageId) {
-        this.storageId = storageId;
-    }
-
-    public Long getResourcesCount() {
-        return resourcesCount;
-    }
-
-    public void setResourcesCount(Long resourcesCount) {
-        this.resourcesCount = resourcesCount;
     }
 }

@@ -8,6 +8,7 @@ import com.rozsa.repository.model.Directory;
 import com.rozsa.repository.model.Resource;
 import com.rozsa.s3.StorageResourceInputStream;
 import com.rozsa.s3.StorageService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,24 +16,14 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @Service
 public class ResourceBusinessImpl implements ResourceBusiness {
     private final ResourceRepository resourceRepository;
     private final DirectoryRepository directoryRepository;
     private final StorageService storage;
-
-    public ResourceBusinessImpl(
-            ResourceRepository resourceRepository,
-            DirectoryRepository directoryRepository,
-            StorageService storage
-        ) {
-        this.resourceRepository = resourceRepository;
-        this.directoryRepository = directoryRepository;
-        this.storage = storage;
-    }
 
     @Override
     public StorageResourceInputStream get(String storageId) {

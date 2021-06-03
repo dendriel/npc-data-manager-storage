@@ -1,32 +1,23 @@
 package com.rozsa.business.impl;
 
 import com.rozsa.business.DirectoryBusiness;
-import com.rozsa.controller.dto.DirectoryDto;
 import com.rozsa.repository.DirectoryRepository;
 import com.rozsa.repository.ResourceRepository;
 import com.rozsa.repository.model.Directory;
 import com.rozsa.repository.model.Resource;
 import com.rozsa.s3.StorageService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class DirectoryBusinessImpl implements DirectoryBusiness {
     private final DirectoryRepository directoryRepository;
-
     private final ResourceRepository resourceRepository;
-
     private final StorageService storage;
-
-    @Autowired
-    public DirectoryBusinessImpl(DirectoryRepository directoryRepository, ResourceRepository resourceRepository, StorageService storage) {
-        this.directoryRepository = directoryRepository;
-        this.resourceRepository = resourceRepository;
-        this.storage = storage;
-    }
 
     @Override
     public List<Directory> listAll() {

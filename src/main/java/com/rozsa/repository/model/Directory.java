@@ -1,7 +1,10 @@
 package com.rozsa.repository.model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
+@Data
 @Entity
 public class Directory {
     @Id
@@ -16,36 +19,4 @@ public class Directory {
 
     @Transient
     private Long resourcesCount;
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getStorageId() {
-        return storageId;
-    }
-
-    public void setStorageId(String idStorage) {
-        this.storageId = idStorage;
-    }
-
-    public Long getResourcesCount() {
-        return resourcesCount;
-    }
-
-    public void setResourcesCount(Long resourcesCount) {
-        this.resourcesCount = resourcesCount;
-    }
 }

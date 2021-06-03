@@ -1,10 +1,12 @@
-package com.rozsa.s3;
+package com.rozsa.s3.impl;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
 import com.rozsa.business.SystemPropertiesBusiness;
+import com.rozsa.s3.StorageResourceInputStream;
+import com.rozsa.s3.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -159,13 +161,9 @@ public class StorageS3 implements StorageService {
         }
 
         S3ObjectInputStream inputStream = s3object.getObjectContent();
-
         ObjectMetadata metadata = s3object.getObjectMetadata();
 
-        StorageResourceInputStream resource = new StorageResourceInputStream(
-                storageId, inputStream, metadata.getContentType(), metadata.getContentLength());
-
-        return resource;
+        return new StorageResourceInputStream(inputStream, metadata.getContentType(), metadata.getContentLength());
     }
 
 }

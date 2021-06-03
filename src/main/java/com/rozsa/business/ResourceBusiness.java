@@ -4,8 +4,6 @@ import com.rozsa.repository.ResourceType;
 import com.rozsa.s3.StorageResourceInputStream;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 
 public interface ResourceBusiness {
     StorageResourceInputStream get(String storageId);

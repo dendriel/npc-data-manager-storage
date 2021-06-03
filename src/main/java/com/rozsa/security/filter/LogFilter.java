@@ -15,7 +15,7 @@ import java.io.IOException;
 public class LogFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
-        log.info("{} {} {}", req.getMethod(), req.getRequestURI(), req.getQueryString());
+        log.info("{} {} {}", req.getMethod(), req.getRequestURI(), req.getQueryString() != null ? req.getQueryString() : "");
         chain.doFilter(req, res);
     }
 }

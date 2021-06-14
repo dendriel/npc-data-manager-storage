@@ -14,6 +14,11 @@ the user home. Check AWS docs on how to setup the credentials: https://docs.aws.
 Also, the credentials must have read/write (AmazonS3FullAccess) access to S3 in order to
 the service manage the resources.
 
+
+## Service Credentials
+
+To use the APIs its necessary to the ``Authorization`` header with a Bearer token provided by [npc-data-manager-auth](https://github.com/dendriel/npc-data-manager-auth) service.
+
 ## Directory
 The following functionalities are available for directory management:
 

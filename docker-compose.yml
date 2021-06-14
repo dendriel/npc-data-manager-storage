@@ -12,7 +12,7 @@ services:
             - /home/ec2-user/.aws:/root/.aws
         environment:
             - MYSQL_DB=the_quest
-            - MYSQL_HOST=10.10.10.5
+            - MYSQL_HOST=192.168.15.9
             - MYSQL_PORT=3306
             - MYSQL_USER=root
             - MYSQL_PASS=pass

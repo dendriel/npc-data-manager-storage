@@ -6,6 +6,10 @@ server:
     include-stacktrace: on_trace_param
     include-exception: true
 
+auth:
+  service:
+    url: ${AUTH_URL:http://localhost:8080}
+
 spring:
   jpa:
     hibernate:

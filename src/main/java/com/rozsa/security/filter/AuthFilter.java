@@ -2,6 +2,7 @@ package com.rozsa.security.filter;
 
 import com.rozsa.service.AuthService;
 import com.rozsa.service.AuthResponse;
+import feign.FeignException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
@@ -45,7 +46,13 @@ public class AuthFilter extends OncePerRequestFilter {
             res.setStatus(HttpStatus.SC_GATEWAY_TIMEOUT);
             return;
         }
+        catch (FeignException.Unauthorized | FeignException.Forbidden e) {
+            log.info("Validation status for token {} is unauthorized", token);
+            chain.doFilter(req, res);
+            return;
+        }
         catch (Exception e) {
+            log.error("Authentication service call returned error: " + e.getMessage());
             res.setStatus(HttpStatus.SC_BAD_GATEWAY);
             return;
         }

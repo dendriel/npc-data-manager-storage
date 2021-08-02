@@ -3,6 +3,7 @@ package com.rozsa.controller.dto;
 import com.rozsa.repository.model.Directory;
 import lombok.Data;
 
+// TODO: use a mapper library
 @Data
 public class DirectoryDto {
     private Long id;

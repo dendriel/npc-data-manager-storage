@@ -6,6 +6,7 @@ import com.rozsa.controller.dto.ResourceDto;
 import com.rozsa.repository.model.Directory;
 import com.rozsa.repository.model.Resource;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,6 +33,17 @@ public class DirectoryController {
     @ResponseBody
     public Long create(@RequestParam("name") String name) {
         return business.create(name);
+    }
+
+    @GetMapping("/find")
+    public ResponseEntity<DirectoryDto> getByName(@RequestParam("name") String name) {
+        Directory directory = business.findByName(name);
+        if (directory == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        DirectoryDto dto = DirectoryDto.from(business.findByName(name));
+        return ResponseEntity.ok(dto);
     }
 
     @DeleteMapping("/{id}")

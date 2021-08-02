@@ -13,4 +13,6 @@ public interface DirectoryRepository extends CrudRepository<Directory, Long> {
     boolean existsDirectoryById(Long id);
 
     List<Directory> findAll();
+
+    Directory findByName(String name);
 }

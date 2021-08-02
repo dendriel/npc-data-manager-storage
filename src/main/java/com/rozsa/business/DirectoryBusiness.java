@@ -13,4 +13,6 @@ public interface DirectoryBusiness {
     Long create(String name);
 
     void delete(Long id);
+
+    Directory findByName(String name);
 }

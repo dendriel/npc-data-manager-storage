@@ -68,4 +68,17 @@ public class DirectoryBusinessImpl implements DirectoryBusiness {
 
         directoryRepository.deleteById(id);
     }
+
+    @Override
+    public Directory findByName(String name) {
+        Directory dir = directoryRepository.findByName(name);
+        if (dir == null) {
+            return null;
+        }
+
+        Long count = resourceRepository.countAllByDirectory_Id(dir.getId());
+        dir.setResourcesCount(count);
+
+        return dir;
+    }
 }

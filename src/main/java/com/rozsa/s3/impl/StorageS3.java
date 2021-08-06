@@ -7,6 +7,7 @@ import com.amazonaws.services.s3.model.*;
 import com.rozsa.business.SystemPropertiesBusiness;
 import com.rozsa.s3.StorageResourceInputStream;
 import com.rozsa.s3.StorageService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import java.util.List;
 import static java.util.UUID.randomUUID;
 
 
+@Slf4j
 @Service("storageS3")
 public class StorageS3 implements StorageService {
     private final AmazonS3 client;
@@ -37,15 +39,15 @@ public class StorageS3 implements StorageService {
 
     private void initializeBucket() {
         if (client.doesBucketExistV2(bucketName)) {
-            System.out.format("Bucket \"%s\" already exists.\n", bucketName);
+            log.info("Bucket \"{}\" already exists.\n", bucketName);
             return;
         }
 
         try {
             client.createBucket(bucketName);
-            System.out.format("Bucket \"%s\" has been created.\n", bucketName);
+            log.info("Bucket \"{}\" has been created.\n", bucketName);
         } catch (AmazonS3Exception e) {
-            System.err.println(e.getErrorMessage());
+            log.error("Failed to create bucket. Error: " + e.getErrorMessage());
         }
     }
 
@@ -67,7 +69,7 @@ public class StorageS3 implements StorageService {
         String newId = createId();
         String idStorage = directory + "/" + newId + "." + ext;
 
-        System.out.format("Uploading %s to S3 bucket %s...\n", idStorage, bucketName);
+        log.info("Uploading {} to S3 bucket {}...", idStorage, bucketName);
 
         try {
             client.putObject(bucketName, idStorage, file);
@@ -79,9 +81,11 @@ public class StorageS3 implements StorageService {
             client.putObject(request);
 
         } catch (AmazonServiceException e) {
-            System.err.println(e.getErrorMessage());
+            log.error("Failed to upload file {} to S3 bucket {}. Error: {}", idStorage, bucketName, e.getErrorMessage());
             return null;
         }
+
+        log.info("Successfully uploaded file {} to S3 bucket {}", idStorage, bucketName);
 
         return idStorage;
     }

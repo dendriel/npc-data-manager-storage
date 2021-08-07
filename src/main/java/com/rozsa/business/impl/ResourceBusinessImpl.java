@@ -9,8 +9,11 @@ import com.rozsa.repository.model.Resource;
 import com.rozsa.s3.StorageResourceInputStream;
 import com.rozsa.s3.StorageService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
+@Slf4j
 @AllArgsConstructor
 @Service
 public class ResourceBusinessImpl implements ResourceBusiness {
@@ -30,11 +34,10 @@ public class ResourceBusinessImpl implements ResourceBusiness {
         return storage.getResource(storageId);
     }
 
-    public void create(String name, ResourceType type, Long directoryId, MultipartFile multipartFile) {
+    public Resource create(String name, ResourceType type, Long directoryId, MultipartFile multipartFile) {
         Optional<Directory> optDirectory = directoryRepository.findById(directoryId);
         if (optDirectory.isEmpty()) {
-            // Throw error?
-            return;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Directory not found");
         }
 
         Directory directory = optDirectory.get();
@@ -51,8 +54,8 @@ public class ResourceBusinessImpl implements ResourceBusiness {
             file = filePath.toFile();
 
         } catch (IOException e) {
-            e.printStackTrace();
-            return;
+            log.error("Failed to create resource {} of type {} into directory {}", name, type, directoryId, e);
+            return null;
         }
 
         String contentyType = multipartFile.getContentType();
@@ -64,7 +67,7 @@ public class ResourceBusinessImpl implements ResourceBusiness {
         resource.setStorageId(storageId);
         resource.setDirectory(directory);
 
-        resourceRepository.save(resource);
+        return resourceRepository.save(resource);
     }
 
     @Override

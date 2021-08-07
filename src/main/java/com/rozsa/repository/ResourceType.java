@@ -2,5 +2,6 @@ package com.rozsa.repository;
 
 public enum ResourceType {
     DEFAULT,
-    IMAGE
+    IMAGE,
+    TEXT
 }

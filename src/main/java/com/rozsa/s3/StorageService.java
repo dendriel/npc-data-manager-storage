@@ -1,6 +1,8 @@
 package com.rozsa.s3;
 
 import java.io.File;
+import java.net.URL;
+import java.util.Date;
 import java.util.List;
 
 public interface StorageService {
@@ -15,4 +17,6 @@ public interface StorageService {
     String createResource(File file, String contentType, String ext, String directory);
 
     StorageResourceInputStream getResource(String storageId);
+
+    URL getResourceAccessUrl(String storageId, Date expirationDate);
 }

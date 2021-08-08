@@ -34,3 +34,7 @@ management:
   endpoint:
     health:
       show-details: never
+
+resource:
+  access:
+    expiration: 60

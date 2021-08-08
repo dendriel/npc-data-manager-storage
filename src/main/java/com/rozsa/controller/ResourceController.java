@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
 import java.util.List;
 
 @Slf4j
@@ -64,6 +65,16 @@ public class ResourceController {
                 .contentLength(resource.getContentLength())
                 .contentType(resource.getMediaType())
                 .body(new InputStreamResource(resource.getInputStream()));
+    }
+
+    @GetMapping("/view/{id}")
+    public ResponseEntity<String> getAccessUrl(@PathVariable("id") Long id) {
+        URL url = business.getAccessUrl(id);
+        if (url == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(url.toExternalForm());
     }
 
     @GetMapping("/types")

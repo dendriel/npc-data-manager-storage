@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static java.util.UUID.randomUUID;
@@ -39,13 +41,13 @@ public class StorageS3 implements StorageService {
 
     private void initializeBucket() {
         if (client.doesBucketExistV2(bucketName)) {
-            log.info("Bucket \"{}\" already exists.\n", bucketName);
+            log.info("Bucket \"{}\" already exists", bucketName);
             return;
         }
 
         try {
             client.createBucket(bucketName);
-            log.info("Bucket \"{}\" has been created.\n", bucketName);
+            log.info("Bucket \"{}\" has been created", bucketName);
         } catch (AmazonS3Exception e) {
             log.error("Failed to create bucket. Error: " + e.getErrorMessage());
         }
@@ -170,4 +172,13 @@ public class StorageS3 implements StorageService {
         return new StorageResourceInputStream(inputStream, metadata.getContentType(), metadata.getContentLength());
     }
 
+    @Override
+    public URL getResourceAccessUrl(String storageId, Date expirationDate) {
+        try {
+            return client.generatePresignedUrl(bucketName, storageId, expirationDate);
+        } catch (Exception e) {
+            log.error("Failed to generate pre-signed URL for storageId: {}; and expirationDate: {}", storageId, expirationDate, e);
+            return null;
+        }
+    }
 }

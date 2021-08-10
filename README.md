@@ -59,3 +59,9 @@ The following functionalities are available for resource management:
   - Request: DELETE ``http://localhost/storage/resource``
     - JSON Request body: [ 2, 3, 4, 5, ...] (resources ids).
   - Response: HTTP 200
+
+
+## TODO
+
+- Remove "Auth" header workaround (necessary due to a conflict when redirecting to aws s3 with authorization header);
+- Use cookie as primary source of credentials. 

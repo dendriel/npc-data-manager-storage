@@ -8,11 +8,14 @@ import com.rozsa.s3.StorageResourceInputStream;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
@@ -75,6 +78,23 @@ public class ResourceController {
         }
 
         return ResponseEntity.ok(url.toExternalForm());
+    }
+
+    @GetMapping("/download/{id}")
+    public ResponseEntity<Void> download(@PathVariable("id") Long id) throws URISyntaxException {
+        URL url = business.getAccessUrl(id);
+        if (url == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setLocation(url.toURI());
+
+        return ResponseEntity
+                .status(HttpStatus.FOUND)
+                .headers(headers)
+                .build();
     }
 
     @GetMapping("/types")

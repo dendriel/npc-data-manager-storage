@@ -32,7 +32,11 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
-        final String authHeader = req.getHeader("Authorization");
+        String authHeader = req.getHeader("Authorization");
+        if (authHeader == null) {
+            authHeader = req.getHeader("Auth");
+        }
+
         String jwt = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);

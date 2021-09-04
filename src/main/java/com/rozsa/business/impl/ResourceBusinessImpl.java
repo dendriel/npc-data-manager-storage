@@ -66,8 +66,8 @@ public class ResourceBusinessImpl implements ResourceBusiness {
             return null;
         }
 
-        String contentyType = multipartFile.getContentType();
-        String storageId = storage.createResource(file, contentyType, ext, directoryStorageId);
+        String contentType = multipartFile.getContentType();
+        String storageId = storage.createResource(file, contentType, ext, directoryStorageId);
 
         Resource resource = new Resource();
         resource.setName(name);

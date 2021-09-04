@@ -74,16 +74,14 @@ public class StorageS3 implements StorageService {
         log.info("Uploading {} to S3 bucket {}...", idStorage, bucketName);
 
         try {
-            client.putObject(bucketName, idStorage, file);
-
             PutObjectRequest request = new PutObjectRequest(bucketName, idStorage, file);
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(contentType);
             request.setMetadata(metadata);
             client.putObject(request);
 
-        } catch (AmazonServiceException e) {
-            log.error("Failed to upload file {} to S3 bucket {}. Error: {}", idStorage, bucketName, e.getErrorMessage());
+        } catch (Exception e) {
+            log.error("Failed to upload file {} to S3 bucket {}. Error: {}", idStorage, bucketName, e);
             return null;
         }
 
@@ -93,10 +91,15 @@ public class StorageS3 implements StorageService {
     }
 
     @Override
-    public void deleteResource(String resource) {
-        // TODO: doesnt seems the most trustable operation..
-        // TODO: how to wait for delete confirmation?
-        client.deleteObject(bucketName, resource);
+    public void deleteResource(String idStorage) {
+        try {
+            client.deleteObject(bucketName, idStorage);
+        } catch (Exception e) {
+            log.error("Failed to remove resource {} from bucket.", idStorage, e);
+            return;
+        }
+
+        log.info("Resource {} was successfully removed from bucket.", idStorage);
     }
 
     @Override

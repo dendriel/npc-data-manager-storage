@@ -4,7 +4,7 @@ FROM maven:3.6.3-jdk-11 AS MAVEN_BUILD
 WORKDIR /build
 
 COPY pom.xml .
-RUN mvn dependency:go-offline
+#RUN mvn dependency:go-offline
 
 COPY src ./src
 RUN mvn package

@@ -41,6 +41,9 @@ public class AuthFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             jwt = authHeader.substring(7);
         }
+        else {
+            chain.doFilter(req, res);
+        }
 
         String token = "Bearer " + jwt;
         AuthResponse authResponse;

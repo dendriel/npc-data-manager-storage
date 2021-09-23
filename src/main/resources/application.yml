@@ -5,10 +5,11 @@ server:
     include-binding-errors: always
     include-stacktrace: on_trace_param
     include-exception: true
+  servlet:
+    context-path: ${BASE_PATH:}
 
-auth:
-  service:
-    url: ${AUTH_URL:http://localhost:8080}
+service:
+  url: ${SERVICE_URL:http://localhost:3000}
 
 spring:
   jpa:

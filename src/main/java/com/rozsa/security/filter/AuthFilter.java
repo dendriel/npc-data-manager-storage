@@ -47,6 +47,7 @@ public class AuthFilter extends OncePerRequestFilter {
         try {
             authResponse = authService.validate(token);
         } catch (feign.RetryableException e) {
+            log.error("Authentication service call returned error: " + e.getMessage());
             res.setStatus(HttpStatus.SC_GATEWAY_TIMEOUT);
             return;
         }

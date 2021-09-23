@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@FeignClient(value = "auth", url = "${auth.service.url}")
+@FeignClient(value = "auth", url = "${service.url}")
 public interface AuthService {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/validate", produces = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/auth/validate", produces = "application/json")
     AuthResponse validate(@RequestHeader(HttpHeaders.AUTHORIZATION) String token);
 }

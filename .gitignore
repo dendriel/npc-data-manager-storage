@@ -98,3 +98,8 @@ fabric.properties
 
 
 .idea
+
+# Gradle
+.gradle/**
+**/build/
+!src/**/build/

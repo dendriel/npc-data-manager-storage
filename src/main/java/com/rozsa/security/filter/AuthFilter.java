@@ -1,5 +1,6 @@
 package com.rozsa.security.filter;
 
+import com.rozsa.configuration.AuthServiceProperties;
 import com.rozsa.service.AuthService;
 import com.rozsa.service.AuthResponse;
 import feign.FeignException;
@@ -17,9 +18,11 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,22 +30,15 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Component
 public class AuthFilter extends OncePerRequestFilter {
-
+    private final AuthServiceProperties authServiceProperties;
     private final AuthService authService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws ServletException, IOException {
-        String authHeader = req.getHeader("Authorization");
-        if (authHeader == null) {
-            authHeader = req.getHeader("Auth");
-        }
-
-        String jwt = null;
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7);
-        }
-        else {
+        String jwt = getToken(req);
+        if (jwt == null) {
             chain.doFilter(req, res);
+            return;
         }
 
         String token = "Bearer " + jwt;
@@ -94,5 +90,25 @@ public class AuthFilter extends OncePerRequestFilter {
         String username = response.getUsername();
 
         return new org.springframework.security.core.userdetails.User(username, "", authorities);
+    }
+
+    public String getToken(HttpServletRequest req) {
+        Cookie[] cookies = req.getCookies();
+        if (cookies == null) {
+            return null;
+        }
+
+        String cookieName = authServiceProperties.getAuthCookieName();
+
+        Cookie cookie = Arrays.stream(cookies)
+                .filter(c -> c.getName().equals(cookieName))
+                .findFirst()
+                .orElse(null);
+
+        if (cookie == null) {
+            return null;
+        }
+
+        return cookie.getValue();
     }
 }

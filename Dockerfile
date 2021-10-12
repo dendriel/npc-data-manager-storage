@@ -1,25 +1,14 @@
-FROM maven:3.6.3-jdk-11 AS MAVEN_BUILD
+FROM gradle:7.0.2-jdk11 AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon
 
-# Build
-WORKDIR /build
+FROM openjdk:11.0.4-jre-slim
 
-COPY pom.xml .
-#RUN mvn dependency:go-offline
+EXPOSE 8082
 
-COPY src ./src
-RUN mvn package
+RUN mkdir /app
 
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/npc-data-manager-storage.jar
 
-# Package target image
-#FROM openjdk:11-jre-alpine3.9
-FROM adoptopenjdk/openjdk11:alpine
-
-COPY --from=MAVEN_BUILD /build/target/npc-data-manager-storage-1.0-SNAPSHOT.jar /npc-data-manager-storage.jar
-
-ENV MYSQL_DB=the_quest \
-    MYSQL_HOST="10.10.10.5" \
-    MYSQL_PORT=3306 \
-    MYSQL_USER="root" \
-    MYSQL_PASS="password"
-
-CMD ["java", "-jar", "/npc-data-manager-storage.jar"]
+ENTRYPOINT ["java", "-jar", "/app/npc-data-manager-storage.jar"]

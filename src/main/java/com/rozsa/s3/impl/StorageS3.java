@@ -4,7 +4,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import com.amazonaws.services.s3.model.*;
-import com.rozsa.business.SystemPropertiesBusiness;
+import com.rozsa.configuration.StorageProperties;
 import com.rozsa.s3.StorageResourceInputStream;
 import com.rozsa.s3.StorageService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +26,11 @@ public class StorageS3 implements StorageService {
     private final AmazonS3 client;
 
     private final String bucketName;
-    @Autowired
-    public StorageS3(SystemPropertiesBusiness systemProperties) {
-        client = initializeClient();
 
-        bucketName = systemProperties.getStorageBucketName();
+    @Autowired
+    public StorageS3(StorageProperties storageProperties) {
+        bucketName = storageProperties.getBucketName();
+        client = initializeClient();
 
         initializeBucket();
     }
@@ -165,7 +165,7 @@ public class StorageS3 implements StorageService {
             s3object = client.getObject(bucketName, storageId);
         }
         catch (AmazonServiceException e) {
-            System.err.println(e.toString());
+            log.error("Failed to get resource from bucket.", e);
             return null;
         }
 

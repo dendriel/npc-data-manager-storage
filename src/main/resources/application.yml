@@ -9,9 +9,9 @@ server:
     context-path: ${BASE_PATH:}
 
 service:
-  url: ${SERVICE_URL:http://localhost:3000}
+  url: "http://localhost:3000"
   auth:
-    cookie: ${SERVICE_AUTH_COOKIE:AUCC}
+    cookie: "AUCC"
 
 spring:
   jpa:
@@ -42,3 +42,7 @@ management:
 resource:
   access:
     expiration: 60
+
+storage:
+  bucket:
+    name: "storage"

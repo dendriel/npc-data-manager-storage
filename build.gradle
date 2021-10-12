@@ -1,5 +1,15 @@
 plugins {
+    id 'org.springframework.boot' version '2.5.5'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'java'
+}
+
+ext {
+    springVersion = '2.5.5'
+    awsSdkS3Version = '1.12.81'
+    openFeignVersion = '3.0.4'
+    mysqlConnectorVersion = '8.0.25'
+    lombokVersion = '1.18.20'
 }
 
 repositories {
@@ -7,22 +17,26 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web:2.4.3'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.4.3'
-    implementation 'com.amazonaws:aws-java-sdk-s3:1.11.969'
-    implementation 'org.springframework.boot:spring-boot-starter-security:2.4.3'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.4.3'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.0.3'
-    runtimeOnly 'mysql:mysql-connector-java:8.0.23'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.4.3'
-    compileOnly 'org.projectlombok:lombok:1.18.20'
+    implementation "org.springframework.boot:spring-boot-starter-web:$springVersion"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springVersion"
+    implementation "org.springframework.boot:spring-boot-starter-security:$springVersion"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:$springVersion"
+    implementation "org.springframework.cloud:spring-cloud-starter-openfeign:$openFeignVersion"
+    implementation "com.amazonaws:aws-java-sdk-s3:$awsSdkS3Version"
 
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    runtimeOnly "mysql:mysql-connector-java:$mysqlConnectorVersion"
+
+    testImplementation "org.springframework.boot:spring-boot-starter-test:$springVersion"
+
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 }
 
 group = 'com.rozsa'
 version = '1.0-SNAPSHOT'
 description = 'npc-data-manager-storage'
+sourceCompatibility = '11'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'

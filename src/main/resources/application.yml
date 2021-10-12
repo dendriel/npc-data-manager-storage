@@ -3,7 +3,6 @@ server:
   error:
     include-message: always
     include-binding-errors: always
-    include-stacktrace: on_trace_param
     include-exception: true
   servlet:
     context-path: ${BASE_PATH:}
@@ -18,7 +17,6 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    initialization-mode: always
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:npc_data}?useTimezone=true&serverTimezone=UTC
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PASS:pass}

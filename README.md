@@ -59,3 +59,9 @@ The following functionalities are available for resource management:
   - Request: DELETE ``http://localhost/storage/resource``
     - JSON Request body: [ 2, 3, 4, 5, ...] (resources ids).
   - Response: HTTP 200
+
+## Run with Docker
+
+```shell
+docker run -e MYSQL_USER=docker MYSQL_PASS=pass -e MYSQL_DB=storage -e MYSQL_HOST=host.docker.internal -v c:\.aws:/root/.aws:ro -p 8082:8082 --name storage dendriel/npc-data-manager-storage
+```

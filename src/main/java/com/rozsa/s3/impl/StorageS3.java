@@ -45,11 +45,35 @@ public class StorageS3 implements StorageService {
             return;
         }
 
+        createBucket();
+        setBucketCors();
+    }
+
+    private void createBucket() {
         try {
             client.createBucket(bucketName);
             log.info("Bucket \"{}\" has been created", bucketName);
         } catch (AmazonS3Exception e) {
-            log.error("Failed to create bucket. Error: " + e.getErrorMessage());
+            log.error("Failed to create bucket.", e);
+        }
+    }
+
+    private void setBucketCors() {
+        try {
+            CORSRule rule1 = new CORSRule().withId("CORSRule1")
+                    .withAllowedMethods(List.of(CORSRule.AllowedMethods.GET))
+                    .withAllowedOrigins(List.of("*"))
+                    .withAllowedHeaders(List.of("*"));
+
+            List<CORSRule> rules = List.of(rule1);
+
+            BucketCrossOriginConfiguration configuration = new BucketCrossOriginConfiguration();
+            configuration.setRules(rules);
+
+            client.setBucketCrossOriginConfiguration(bucketName, configuration);
+            log.info("Bucket \"{}\" CORS policy was set.", bucketName);
+        } catch (Exception e) {
+            log.error("Failed to set CORS bucket configuration.", e);
         }
     }
 

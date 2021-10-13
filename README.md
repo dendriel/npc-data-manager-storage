@@ -14,6 +14,10 @@ the user home. Check AWS docs on how to setup the credentials: https://docs.aws.
 Also, the credentials must have read/write (AmazonS3FullAccess) access to S3 in order to
 the service manage the resources.
 
+### Storage Bucket
+
+S3 buckets must be unique globally even across accounts. So it is probably a good idea to set a custom s3 bucket name via environment var:
+- STORAGE_BUCKET_NAME=storage-somerandomsuffix
 
 ## Service Credentials
 
@@ -65,3 +69,8 @@ The following functionalities are available for resource management:
 ```shell
 docker run -e MYSQL_USER=docker MYSQL_PASS=pass -e MYSQL_DB=storage -e MYSQL_HOST=host.docker.internal -v c:\.aws:/root/.aws:ro -p 8082:8082 --name storage dendriel/npc-data-manager-storage
 ```
+
+
+## TODO
+
+- Allow to setup custom CORS policy.

@@ -16,11 +16,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    defer-datasource-initialization: true
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DB:npc_data}?useTimezone=true&serverTimezone=UTC
     username: ${MYSQL_USER:root}
     password: ${MYSQL_PASS:pass}
-
   servlet:
     multipart:
       enabled: true
